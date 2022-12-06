@@ -2,11 +2,11 @@ import React, { FC } from 'react';
 import { Container } from '@mui/material';
 import { Header } from '@components/Header';
 import { Outlet } from 'react-router-dom';
-
+import { useStyles } from './index.styles';
 export const MainLayout: FC = () => {
-  const rootStyles = { minHeight: '100vh', backgroundColor: '#1f2429' };
+  const classes = useStyles();
   return (
-    <div style={rootStyles}>
+    <div className={classes.root}>
       <Header />
       <Container maxWidth="xl">
         <Outlet />
