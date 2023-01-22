@@ -3,9 +3,19 @@ import { Box } from '@mui/material';
 import { GroupRooms } from './GroupRooms';
 import { P2PRooms } from './P2PRooms';
 import { useStyles } from './index.styles';
-import { OnlineUsers } from '@containers/DashboardContainer/OnlineUsers';
+import { OnlineUsers } from './OnlineUsers';
+import { useGetPeers } from './hooks/useGetPeers';
 
 export const DashboardContainer: FC = () => {
+  useGetPeers();
+  /**
+   * FLOW для дашборда
+   * 1. Когда пользователь заходит на дашборд - на бек отправляем onConnect
+   * и возвращаем id сокета - это будет айди комнаты для пользователя
+   * 2. Также из бекенда возвращаем список всех id сокетов, которые сейчас онлайн
+   * 3. onLeave отправляем сокету разъединение и уведомляем остальных пользователей
+   * */
+
   const classes = useStyles();
   return (
     <Box className={classes.root}>

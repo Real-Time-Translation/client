@@ -22,7 +22,7 @@
       "@pages/*": ["./src/pages/*"],
       "@modules/*": ["./src/modules/*"],
       "@hooks/*": ["./src/hooks/*"],
-      "@images/*": ["./src/images/*"]
+      "@images/*": ["./src/images/*"],
     }
   },
   "include": ["src"],

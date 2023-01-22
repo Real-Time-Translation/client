@@ -8,7 +8,7 @@ export const P2PRooms: FC = () => {
   return (
     <>
       <Typography variant="h5" className={classes.paperTitle}>
-        Peers online
+        P2P rooms
       </Typography>
       <Box className={classes.paperCardList}>
         <RoomCard className={classes.roomCard} />
