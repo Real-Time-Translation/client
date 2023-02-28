@@ -12,6 +12,7 @@ export default defineConfig({
       "@containers": path.resolve(__dirname, "./src/containers"),
       "@hooks": path.resolve(__dirname, "./src/hooks"),
       "@images": path.resolve(__dirname, "./src/images"),
+      "@api": path.resolve(__dirname, "./src/api"),
     },
   },
 })

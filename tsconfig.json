@@ -23,6 +23,7 @@
       "@modules/*": ["./src/modules/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@images/*": ["./src/images/*"],
+      "@api/*" : ["./src/api/*"],
     }
   },
   "include": ["src"],
