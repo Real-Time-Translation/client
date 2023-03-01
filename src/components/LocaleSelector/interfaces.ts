@@ -1,3 +1,6 @@
+import { ISOLanguage } from '@modules/LanguageProvider/interfaces';
+
 export interface LocaleSelectorProps {
-  test?: string;
+  onChange?: (value: ISOLanguage) => void;
+  value?: string;
 }

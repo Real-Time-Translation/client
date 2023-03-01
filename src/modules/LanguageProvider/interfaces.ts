@@ -90,7 +90,7 @@ export type ISOLanguage =
   | 'ro'
   | 'ro-MO'
   | 'ru'
-  | 'ru-MI'
+  | 'ru-RU'
   | 'sz'
   | 'sr'
   | 'sk'

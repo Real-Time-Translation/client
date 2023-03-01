@@ -6,7 +6,9 @@ export interface WidgetCardProps {
   subtitle?: string;
   cornerRadiusDirection?: WidgetCardCornerRadiusDirection;
   icon?: SvgIconComponent;
-  control?: ReactNode;
+  isControlsShown?: boolean;
+  onSubtitleClick?: () => void;
+  controls?: ReactNode;
 }
 
 export enum WidgetCardCornerRadiusDirection {

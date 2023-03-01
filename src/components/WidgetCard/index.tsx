@@ -10,7 +10,9 @@ export const WidgetCard: FC<WidgetCardProps> = ({
   subtitle,
   icon,
   cornerRadiusDirection,
-  control,
+  controls,
+  onSubtitleClick,
+  isControlsShown,
 }) => {
   const classes = useStyles();
 
@@ -34,8 +36,13 @@ export const WidgetCard: FC<WidgetCardProps> = ({
       <TitleIcon className={classes.titleIcon} />
       <Typography fontWeight={600}>{title}</Typography>
       <Typography variant="subtitle2" className={classes.subtitle}>
-        {subtitle}
-        {control}
+        {isControlsShown ? (
+          controls
+        ) : (
+          <span role="presentation" onClick={onSubtitleClick}>
+            {subtitle}
+          </span>
+        )}
       </Typography>
     </div>
   );

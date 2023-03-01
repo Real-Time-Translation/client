@@ -6,17 +6,14 @@ import { Footer } from '@components/layouts/DashboardLayout/Footer';
 import { WidgetCard } from '@components/WidgetCard';
 import { WidgetCardCornerRadiusDirection } from '@components/WidgetCard/interfaces';
 import CastIcon from '@mui/icons-material/Cast';
-import {
-  AdminPanelSettingsOutlined,
-  FindInPage,
-  PublicSharp,
-} from '@mui/icons-material';
+import { AdminPanelSettingsOutlined, FindInPage } from '@mui/icons-material';
 import { LanguageContext } from '@modules/LanguageProvider/context';
-import { LocaleSelector } from '@components/LocaleSelector';
+import { LanguageWidget } from '@containers/DashboardContainer/LanguageWidget';
 
 export const DashboardContainer: FC = () => {
   const classes = useStyles();
-  const { currentLanguage } = useContext(LanguageContext);
+
+  const { currentLanguage, onChangeLanguage } = useContext(LanguageContext);
 
   return (
     <DashboardLayout header={<Header />} footer={<Footer />}>
@@ -41,14 +38,9 @@ export const DashboardContainer: FC = () => {
               subtitle={'If you have the code, click and paste it'}
               icon={FindInPage}
             />
-            <WidgetCard
-              cornerRadiusDirection={
-                WidgetCardCornerRadiusDirection.BottomRight
-              }
-              title={`Your language: ${currentLanguage}`}
-              subtitle={'Click here to change'}
-              icon={PublicSharp}
-              control={<LocaleSelector />}
+            <LanguageWidget
+              currentLanguage={currentLanguage}
+              onChangeLanguage={onChangeLanguage}
             />
           </div>
         </div>

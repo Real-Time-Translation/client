@@ -32,5 +32,9 @@ export const useStyles = createUseStyles({
   subtitle: {
     marginTop: 8,
     color: '#91919b',
+    transition: '0.3s',
+    '&:hover': {
+      color: '#ff3d3d',
+    },
   },
 });

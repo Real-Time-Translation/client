@@ -82,7 +82,7 @@ export const ISO_LOCALES: Record<ISOLanguage, ISOLanguage> = {
   ro: 'ro',
   'ro-MO': 'ro-MO',
   ru: 'ru',
-  'ru-MI': 'ru-MI',
+  'ru-RU': 'ru-RU',
   sz: 'sz',
   sr: 'sr',
   sk: 'sk',
