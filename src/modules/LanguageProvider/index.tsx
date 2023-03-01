@@ -5,14 +5,22 @@ import {
   LanguageProviderProps,
 } from './interfaces';
 import { LanguageContext } from './context';
+import { SESSION_STORAGE_LOCALE_KEY } from './constants';
 
 export const LanguageProvider: FC<LanguageProviderProps> = ({ children }) => {
-  const [language, setLanguage] = useState(navigator.language as ISOLanguage);
+  const preferredLanguage = sessionStorage.getItem(
+    SESSION_STORAGE_LOCALE_KEY,
+  ) as ISOLanguage;
+
+  const [language, setLanguage] = useState(
+    preferredLanguage ?? (navigator.language as ISOLanguage),
+  );
 
   const contextValue: LanguageContextProps = {
     currentLanguage: language,
     onChangeLanguage: (newLanguage) => {
       setLanguage(newLanguage);
+      sessionStorage.setItem(SESSION_STORAGE_LOCALE_KEY, newLanguage);
     },
   };
 

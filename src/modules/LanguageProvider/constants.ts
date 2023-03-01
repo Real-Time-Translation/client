@@ -1,5 +1,7 @@
 import { ISOLanguage } from '@modules/LanguageProvider/interfaces';
 
+export const SESSION_STORAGE_LOCALE_KEY = 'preferred_locale';
+
 export const ISO_LOCALES: Record<ISOLanguage, ISOLanguage> = {
   af: 'af',
   sq: 'sq',
