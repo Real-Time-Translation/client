@@ -12,6 +12,7 @@ export const WidgetCard: FC<WidgetCardProps> = ({
   cornerRadiusDirection,
   controls,
   onSubtitleClick,
+  onAreaClick,
   isControlsShown,
 }) => {
   const classes = useStyles();
@@ -27,19 +28,34 @@ export const WidgetCard: FC<WidgetCardProps> = ({
     [WidgetCardCornerRadiusDirection.BottomRight]: classes.bottomRightCorner,
     [WidgetCardCornerRadiusDirection.TopRight]: classes.topRightCorner,
   };
+
   const computedCornerDirectionClass = cornerRadiusDirection
     ? cornerDirectionMappedToClass[cornerRadiusDirection]
     : '';
 
+  const handleSubtitleClick = (e: MouseEvent) => {
+    e.stopPropagation();
+    onSubtitleClick?.();
+  };
+
   return (
-    <div className={classNames(classes.root, computedCornerDirectionClass)}>
+    <div
+      className={classNames(classes.root, computedCornerDirectionClass)}
+      onClick={onAreaClick}
+      role="presentation"
+    >
       <TitleIcon className={classes.titleIcon} />
       <Typography fontWeight={600}>{title}</Typography>
       <Typography variant="subtitle2" className={classes.subtitle}>
         {isControlsShown ? (
           controls
         ) : (
-          <span role="presentation" onClick={onSubtitleClick}>
+          <span
+            role="presentation"
+            onClick={(e) => {
+              handleSubtitleClick(e as unknown as MouseEvent);
+            }}
+          >
             {subtitle}
           </span>
         )}

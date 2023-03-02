@@ -9,40 +9,52 @@ import CastIcon from '@mui/icons-material/Cast';
 import { AdminPanelSettingsOutlined, FindInPage } from '@mui/icons-material';
 import { LanguageContext } from '@modules/LanguageProvider/context';
 import { LanguageWidget } from '@containers/DashboardContainer/LanguageWidget';
+import { useCreateMeeting } from '@containers/DashboardContainer/hooks/useCreateMeeting';
+import { CircularProgress } from '@mui/material';
 
 export const DashboardContainer: FC = () => {
   const classes = useStyles();
 
   const { currentLanguage, onChangeLanguage } = useContext(LanguageContext);
 
+  /** Meeting creation */
+  const { createMeeting, loading: createMeetingLoading } = useCreateMeeting();
+
   return (
     <DashboardLayout header={<Header />} footer={<Footer />}>
       <div className={classes.root}>
         <div className={classes.actionWidgetsWrapper}>
-          <div className={classes.actionWidgetsContainer}>
-            <WidgetCard
-              cornerRadiusDirection={WidgetCardCornerRadiusDirection.TopLeft}
-              title={'New video meeting'}
-              subtitle={'Create meeting and send code to others'}
-              icon={CastIcon}
-            />
-            <WidgetCard
-              cornerRadiusDirection={WidgetCardCornerRadiusDirection.TopRight}
-              title={'Settings'}
-              subtitle={'Your preferences'}
-              icon={AdminPanelSettingsOutlined}
-            />
-            <WidgetCard
-              cornerRadiusDirection={WidgetCardCornerRadiusDirection.BottomLeft}
-              title={'Join meeting'}
-              subtitle={'If you have the code, click and paste it'}
-              icon={FindInPage}
-            />
-            <LanguageWidget
-              currentLanguage={currentLanguage}
-              onChangeLanguage={onChangeLanguage}
-            />
-          </div>
+          {createMeetingLoading ? (
+            <CircularProgress sx={{ color: 'white' }} />
+          ) : (
+            <div className={classes.actionWidgetsContainer}>
+              <WidgetCard
+                onAreaClick={createMeeting}
+                cornerRadiusDirection={WidgetCardCornerRadiusDirection.TopLeft}
+                title={'New video meeting'}
+                subtitle={'Create meeting and send code to others'}
+                icon={CastIcon}
+              />
+              <WidgetCard
+                cornerRadiusDirection={WidgetCardCornerRadiusDirection.TopRight}
+                title={'Settings'}
+                subtitle={'Your preferences'}
+                icon={AdminPanelSettingsOutlined}
+              />
+              <WidgetCard
+                cornerRadiusDirection={
+                  WidgetCardCornerRadiusDirection.BottomLeft
+                }
+                title={'Join meeting'}
+                subtitle={'If you have the code, click and paste it'}
+                icon={FindInPage}
+              />
+              <LanguageWidget
+                currentLanguage={currentLanguage}
+                onChangeLanguage={onChangeLanguage}
+              />
+            </div>
+          )}
         </div>
       </div>
     </DashboardLayout>

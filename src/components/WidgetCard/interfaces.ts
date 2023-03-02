@@ -9,6 +9,7 @@ export interface WidgetCardProps {
   isControlsShown?: boolean;
   onSubtitleClick?: () => void;
   controls?: ReactNode;
+  onAreaClick?: () => void;
 }
 
 export enum WidgetCardCornerRadiusDirection {
