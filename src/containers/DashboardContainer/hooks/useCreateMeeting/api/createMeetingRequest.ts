@@ -8,5 +8,5 @@ export interface CreateMeetingResponse {
 export const createMeetingRequest = (): Promise<
   AxiosResponse<CreateMeetingResponse>
 > => {
-  return axiosInstance.get('create');
+  return axiosInstance.get('createMeeting');
 };
