@@ -1,25 +1,20 @@
-import { useState } from 'react';
-import { createMeetingRequest } from './api/createMeetingRequest';
-import { isAxiosError } from 'axios';
+import socket from '@api/socket';
+import { useEffect, useState } from 'react';
 
 export const useCreateMeeting = () => {
-  const [data, setData] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<unknown>();
+  const [loading, setLoading] = useState(false);
 
-  const createMeeting = async () => {
-    try {
-      setLoading(true);
-      const result = await createMeetingRequest();
-      setData(result.data as unknown as string);
-    } catch (e) {
-      if (isAxiosError(e)) {
-        setError(e.message);
-      } else console.log('unexpected error:', e);
-    } finally {
-      setLoading(false);
-    }
+  const createMeeting = () => {
+    setLoading(true);
+    socket.emit('createMeeting');
   };
 
-  return { createMeeting, data, error, loading };
+  useEffect(() => {
+    socket.on('meetingCreated', (createdMeetingId) => {
+      console.log(createdMeetingId);
+      setLoading(false);
+    });
+  }, [setLoading]);
+
+  return { createMeeting, loading };
 };

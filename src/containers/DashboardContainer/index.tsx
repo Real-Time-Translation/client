@@ -17,8 +17,7 @@ export const DashboardContainer: FC = () => {
 
   const { currentLanguage, onChangeLanguage } = useContext(LanguageContext);
 
-  /** Meeting creation */
-  const { createMeeting, loading: createMeetingLoading } = useCreateMeeting();
+  const { loading: createMeetingLoading, createMeeting } = useCreateMeeting();
 
   return (
     <DashboardLayout header={<Header />} footer={<Footer />}>
