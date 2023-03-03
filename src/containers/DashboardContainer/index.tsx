@@ -9,15 +9,21 @@ import CastIcon from '@mui/icons-material/Cast';
 import { AdminPanelSettingsOutlined, FindInPage } from '@mui/icons-material';
 import { LanguageContext } from '@modules/LanguageProvider/context';
 import { LanguageWidget } from './LanguageWidget';
-import { useCreateMeeting } from '@containers/DashboardContainer/hooks/useCreateMeeting';
+import { useCreateMeeting } from './hooks/useCreateMeeting';
 import { CircularProgress } from '@mui/material';
+import { useNavigateToMeeting } from './hooks/useNavigateToMeeting';
 
 export const DashboardContainer: FC = () => {
   const classes = useStyles();
 
   const { currentLanguage, onChangeLanguage } = useContext(LanguageContext);
+  const navigateToMeeting = useNavigateToMeeting();
 
-  const { loading: createMeetingLoading, createMeeting } = useCreateMeeting();
+  const { loading: createMeetingLoading, createMeeting } = useCreateMeeting({
+    onCreated: (meetingId) => {
+      navigateToMeeting(meetingId);
+    },
+  });
 
   return (
     <DashboardLayout header={<Header />} footer={<Footer />}>

@@ -2,14 +2,15 @@ import React, { FC } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Dashboard } from './Dashboard';
 import { MeetingP2P } from './MeetingP2P';
+import { RootPaths } from './constants';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: RootPaths.Dashboard,
     element: <Dashboard />,
   },
   {
-    path: '/p2p/:meetingId',
+    path: RootPaths.P2PMeeting,
     element: <MeetingP2P />,
   },
 ]);

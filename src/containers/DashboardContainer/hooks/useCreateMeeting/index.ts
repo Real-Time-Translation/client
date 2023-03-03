@@ -1,8 +1,8 @@
 import socket from '@api/socket';
 import { useEffect, useState } from 'react';
-import { CreationMeetingEvent } from './interfaces';
+import { CreationMeetingEvent, UseCreateMeetingProps } from './interfaces';
 
-export const useCreateMeeting = () => {
+export const useCreateMeeting = (props: UseCreateMeetingProps) => {
   const [loading, setLoading] = useState(false);
 
   const createMeeting = () => {
@@ -11,8 +11,8 @@ export const useCreateMeeting = () => {
   };
 
   useEffect(() => {
-    socket.on(CreationMeetingEvent.Created, (createdMeetingId) => {
-      console.log(createdMeetingId);
+    socket.on(CreationMeetingEvent.Created, (createdMeetingId: string) => {
+      props?.onCreated(createdMeetingId);
       setLoading(false);
     });
     return () => {
