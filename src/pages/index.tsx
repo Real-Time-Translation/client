@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Dashboard } from './Dashboard';
-import { P2P } from './P2P';
+import { MeetingP2P } from './MeetingP2P';
 
 const router = createBrowserRouter([
   {
@@ -9,8 +9,8 @@ const router = createBrowserRouter([
     element: <Dashboard />,
   },
   {
-    path: '/p2p',
-    element: <P2P />,
+    path: '/p2p/:meetingId',
+    element: <MeetingP2P />,
   },
 ]);
 

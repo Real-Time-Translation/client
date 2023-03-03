@@ -8,7 +8,7 @@ import { WidgetCardCornerRadiusDirection } from '@components/WidgetCard/interfac
 import CastIcon from '@mui/icons-material/Cast';
 import { AdminPanelSettingsOutlined, FindInPage } from '@mui/icons-material';
 import { LanguageContext } from '@modules/LanguageProvider/context';
-import { LanguageWidget } from '@containers/DashboardContainer/LanguageWidget';
+import { LanguageWidget } from './LanguageWidget';
 import { useCreateMeeting } from '@containers/DashboardContainer/hooks/useCreateMeeting';
 import { CircularProgress } from '@mui/material';
 
