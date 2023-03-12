@@ -4,11 +4,25 @@ import { CreationMeetingEvent, UseCreateMeetingProps } from './interfaces';
 
 export const useCreateMeeting = (props: UseCreateMeetingProps) => {
   const [loading, setLoading] = useState(false);
+  const [meetingErrorTimeOuted, setMeetingErrorTimeOuted] = useState(false);
 
   const createMeeting = () => {
     setLoading(true);
     socket.emit(CreationMeetingEvent.Create);
   };
+
+  useEffect(() => {
+    if (loading) {
+      setMeetingErrorTimeOuted(false);
+      const timeout = setTimeout(() => {
+        setMeetingErrorTimeOuted(true);
+        setLoading(false);
+      }, 3000);
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+  }, [loading]);
 
   useEffect(() => {
     socket.on(CreationMeetingEvent.Created, (createdMeetingId: string) => {
@@ -17,8 +31,9 @@ export const useCreateMeeting = (props: UseCreateMeetingProps) => {
     });
     return () => {
       setLoading(false);
+      setMeetingErrorTimeOuted(false);
     };
-  }, [setLoading]);
+  }, [setLoading, setMeetingErrorTimeOuted]);
 
   return { createMeeting, loading };
 };

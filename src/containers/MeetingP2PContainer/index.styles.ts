@@ -8,7 +8,7 @@ export const useStyles = createUseStyles({
   },
 
   videoSectionContainer: {
-    flexGrow: 3,
+    flexGrow: 2,
     maxHeight: 740,
     background: 'rgba(48,48,48, 0.63)',
     margin: 16,
@@ -22,13 +22,10 @@ export const useStyles = createUseStyles({
     width: '50%',
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'center',
   },
-  companionInviteWrapper: {
-    width: '100%',
-    maxWidth: 780,
-    aspectRatio: '12 / 9',
-    borderRadius: 16,
-    background: '#3f434f',
+  videoWrapper: {
+    position: 'relative',
   },
   videoElement: {
     width: '100%',
@@ -37,7 +34,9 @@ export const useStyles = createUseStyles({
     borderRadius: 16,
   },
 
+  /** Translator */
   translatorWrapper: {
-    flexGrow: 2,
+    flexGrow: 1,
+    maxHeight: 200,
   },
 });

@@ -1,4 +1,4 @@
 export const CAPTURE_OPTIONS: MediaStreamConstraints = {
-  audio: false,
+  audio: true,
   video: true,
 };
