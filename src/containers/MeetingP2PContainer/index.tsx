@@ -1,11 +1,11 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { MeetingP2PContainerProps } from './interfaces';
 import { useMediaStream } from './hooks/useMediaStreem';
 import { useStyles } from './index.styles';
 import { Controls } from './Controls';
-import { InviteWidget } from './InviteWidget';
-import { LanguageIcon } from './LanguageIcon';
 import { usePeerConnection } from './hooks/usePeerConnection';
+import { Button } from '@mui/material';
+import { Participants } from '@containers/MeetingP2PContainer/Participants';
 
 export const MeetingP2PContainer: FC<MeetingP2PContainerProps> = ({
   meetingId,
@@ -18,45 +18,35 @@ export const MeetingP2PContainer: FC<MeetingP2PContainerProps> = ({
     handleReceiveRemoteTrackEvent,
     remoteRefCb,
   } = useMediaStream();
-  usePeerConnection(
-    meetingId,
-    localMediaStream as MediaStream,
-    handleReceiveRemoteTrackEvent,
-  );
+  const { startListenDataChannelMessage, sendDataChannelMessage } =
+    usePeerConnection(
+      meetingId,
+      localMediaStream as MediaStream,
+      handleReceiveRemoteTrackEvent,
+    );
+
+  useEffect(() => {
+    // console.log(startListenDataChannelMessage, sendDataChannelMessage);
+    const messageListener = (msg: string) => {
+      console.log(msg);
+    };
+
+    startListenDataChannelMessage(messageListener);
+  }, [startListenDataChannelMessage, sendDataChannelMessage]);
+
   return (
     <div className={classes.root}>
-      <section className={classes.videoSectionContainer}>
-        <div className={classes.viewItem}>
-          <div className={classes.videoWrapper}>
-            <LanguageIcon languageCode={'ru'} />
-            <video
-              className={classes.videoElement}
-              ref={localVideoElement}
-              autoPlay
-              playsInline
-            >
-              <track kind="captions" />
-            </video>
-          </div>
-        </div>
-        <div className={classes.viewItem}>
-          {!remoteMediaStream ? (
-            <InviteWidget meetingId={meetingId} />
-          ) : (
-            <div className={classes.videoWrapper}>
-              <video
-                className={classes.videoElement}
-                ref={remoteRefCb}
-                autoPlay
-                playsInline
-              >
-                <track kind="captions" />
-              </video>
-            </div>
-          )}
-        </div>
+      <Participants
+        meetingId={meetingId}
+        remoteMediaStream={remoteMediaStream}
+        remoteRefCb={remoteRefCb}
+        ref={localVideoElement}
+      />
+      <section className={classes.translatorWrapper}>
+        <Button onClick={() => sendDataChannelMessage('test')}>
+          Send message
+        </Button>
       </section>
-      <section className={classes.translatorWrapper}></section>
       <Controls />
     </div>
   );

@@ -22,7 +22,6 @@ export const useMediaStream = () => {
   }, []);
 
   const handleReceiveRemoteTrackEvent = (e: RTCTrackEvent) => {
-    console.log(e.streams[0]);
     setRemoteMediaStream(e.streams[0]);
   };
   const remoteRefCb = useCallback(

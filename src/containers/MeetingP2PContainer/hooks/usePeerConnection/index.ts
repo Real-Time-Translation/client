@@ -5,6 +5,7 @@ import {
   JoinResult,
   SDPSetResult,
 } from '@containers/MeetingP2PContainer/hooks/usePeerConnection/interfaces';
+import { useDataChannel } from '@containers/MeetingP2PContainer/hooks/usePeerConnection/useDataChannel';
 
 export const usePeerConnection = (
   meetingId: string,
@@ -12,6 +13,12 @@ export const usePeerConnection = (
   handleReceiveRemoteTrackEvent: (e: RTCTrackEvent) => void,
 ) => {
   const peerConnection = useRef<RTCPeerConnection>();
+  const {
+    initDataChannel,
+    startListenDataChannel,
+    startListenMessage,
+    sendMessage,
+  } = useDataChannel();
   useEffect(() => {
     const canConnectionBeEstablished =
       !peerConnection.current && localMediaStream;
@@ -23,7 +30,7 @@ export const usePeerConnection = (
       peerConnection.current.onicecandidate = onIceCandidate;
       peerConnection.current.ontrack = onRemoteTrack;
 
-      setupListeners();
+      setupListeners(peerConnection.current);
     }
   }, [localMediaStream]);
 
@@ -61,10 +68,10 @@ export const usePeerConnection = (
     handleReceiveRemoteTrackEvent(e);
   };
 
-  const setupListeners = () => {
+  const setupListeners = (peerConnection: RTCPeerConnection) => {
     socket.emit('joinMeeting', meetingId, async (result: JoinResult) => {
-      /** Вынести в отдельные функции */
       if (result.sdpRole === 'offerer') {
+        initDataChannel(peerConnection);
         const sdp = await initSDPAsOfferer();
         const sdpPayload: SDPSetResult = {
           sdp: JSON.stringify(sdp),
@@ -74,6 +81,7 @@ export const usePeerConnection = (
       }
 
       if (result.sdpRole === 'answerer') {
+        startListenDataChannel(peerConnection);
         const offererSDP = result.offererSDP;
         const sdp = await initSDPAsAnswerer(offererSDP as string);
         const sdpPayload: SDPSetResult = {
@@ -94,5 +102,10 @@ export const usePeerConnection = (
     localMediaStream.getTracks().forEach((track) => {
       peerConnection.current?.addTrack(track, localMediaStream);
     });
+  };
+
+  return {
+    startListenDataChannelMessage: startListenMessage,
+    sendDataChannelMessage: sendMessage,
   };
 };
