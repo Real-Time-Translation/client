@@ -19,14 +19,14 @@ export const useStyles = createUseStyles({
     color: '#ffffff',
   },
   companionInviteButton: {
-    // textTransform: 'unset',
-    // background: '#1f273d',
-    // color: 'white',
-    // marginTop: 8,
-    // '&:hover': {
-    //   backgroundColor: '#fff',
-    //   color: '#3c52b2',
-    // },
+    textTransform: 'unset',
+    background: '#1f273d',
+    color: 'white',
+    marginTop: 8,
+    '&:hover': {
+      backgroundColor: '#fff',
+      color: '#3c52b2',
+    },
   },
   meetingId: {
     color: '#c7c7c7',

@@ -6,6 +6,7 @@ import { Controls } from './Controls';
 import { usePeerConnection } from './hooks/usePeerConnection';
 import { Button } from '@mui/material';
 import { Participants } from '@containers/MeetingP2PContainer/Participants';
+import { Transcription } from '@containers/MeetingP2PContainer/Transcription';
 
 export const MeetingP2PContainer: FC<MeetingP2PContainerProps> = ({
   meetingId,
@@ -26,7 +27,6 @@ export const MeetingP2PContainer: FC<MeetingP2PContainerProps> = ({
     );
 
   useEffect(() => {
-    // console.log(startListenDataChannelMessage, sendDataChannelMessage);
     const messageListener = (msg: string) => {
       console.log(msg);
     };
@@ -42,11 +42,7 @@ export const MeetingP2PContainer: FC<MeetingP2PContainerProps> = ({
         remoteRefCb={remoteRefCb}
         ref={localVideoElement}
       />
-      <section className={classes.translatorWrapper}>
-        <Button onClick={() => sendDataChannelMessage('test')}>
-          Send message
-        </Button>
-      </section>
+      <Transcription />
       <Controls />
     </div>
   );
