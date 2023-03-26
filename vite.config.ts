@@ -1,13 +1,9 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import { useProxy } from './proxy.js';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  server: {
-    proxy: useProxy,
-  },
   base: '/client/',
   resolve: {
     alias: {
