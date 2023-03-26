@@ -4,7 +4,7 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/client/',
+  base: '/real-time-translation.github.io/client/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
