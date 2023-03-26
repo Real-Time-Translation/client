@@ -7,12 +7,11 @@ import { ThemeProvider } from '@modules/ThemeProvider';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <>
-    {/*<ThemeProvider>*/}
-    {/*  <CssBaseline />*/}
-    {/*  <LanguageProvider>*/}
-    {/*    <AppRouter />*/}
-    {/*  </LanguageProvider>*/}
-    {/*</ThemeProvider>*/}
-    <div>hello</div>
+    <ThemeProvider>
+      <CssBaseline />
+      <LanguageProvider>
+        <AppRouter />
+      </LanguageProvider>
+    </ThemeProvider>
   </>,
 );
