@@ -1,4 +1,4 @@
 export const RootPaths = {
-  Dashboard: '/client',
-  P2PMeeting: '/client/p2p/:meetingId',
+  Dashboard: '/',
+  P2PMeeting: '/p2p/:meetingId',
 };
