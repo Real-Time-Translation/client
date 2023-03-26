@@ -17,7 +17,7 @@ export const useDataChannel = () => {
   };
 
   const startListenMessage = (listener: MessageListener) => {
-    /** Add more listeners */
+    /** Add more listeners and unsubscribtions */
     if (messageChannel.current) {
       messageChannel.current.onmessage = (e) => {
         listener(e.data);

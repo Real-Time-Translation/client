@@ -9,7 +9,7 @@ export const useStyles = createUseStyles({
 
   videoSectionContainer: {
     flexGrow: 2,
-    maxHeight: 740,
+    maxHeight: 400,
     background: 'rgba(48,48,48, 0.63)',
     margin: 16,
     borderRadius: 16,
@@ -29,7 +29,7 @@ export const useStyles = createUseStyles({
   },
   videoElement: {
     width: '100%',
-    maxWidth: 780,
+    maxWidth: 480,
     height: 'auto',
     borderRadius: 16,
   },

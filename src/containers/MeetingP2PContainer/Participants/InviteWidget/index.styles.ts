@@ -4,8 +4,7 @@ export const useStyles = createUseStyles({
   /** Invitation widget */
   companionInviteWrapper: {
     width: '100%',
-    maxWidth: 640,
-    maxHeight: 480,
+    maxWidth: 480,
     aspectRatio: '12 / 9',
     borderRadius: 16,
     background: '#3f434f',
