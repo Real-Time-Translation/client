@@ -1,10 +1,7 @@
 import { useEffect, useRef } from 'react';
 import socket from '@api/socket';
 import { STUN_SERVERS } from './constants';
-import {
-  JoinResult,
-  SDPSetResult,
-} from '@containers/MeetingP2PContainer/hooks/usePeerConnection/interfaces';
+import { SDPSetResult } from '@containers/MeetingP2PContainer/hooks/usePeerConnection/interfaces';
 import { useDataChannel } from '@containers/MeetingP2PContainer/hooks/usePeerConnection/useDataChannel';
 
 export const usePeerConnection = (
@@ -69,7 +66,12 @@ export const usePeerConnection = (
   };
 
   const setupListeners = (peerConnection: RTCPeerConnection) => {
-    socket.emit('joinMeeting', meetingId, async (result: JoinResult) => {
+    socket.emit('joinMeeting', meetingId);
+    socket.on('answererSDPReady', async (answererSDP: string) => {
+      await awareOffererAboutAnswerer(answererSDP);
+    });
+
+    socket.on('joined', async (result) => {
       if (result.sdpRole === 'offerer') {
         initDataChannel(peerConnection);
         const sdp = await initSDPAsOfferer();
@@ -90,9 +92,6 @@ export const usePeerConnection = (
         };
         socket.emit('setSDP', meetingId, sdpPayload);
       }
-    });
-    socket.on('answererSDPReady', async (answererSDP: string) => {
-      await awareOffererAboutAnswerer(answererSDP);
     });
 
     socket.on('iceCandidate', handleReceiveIceCandidateFromRemote);
