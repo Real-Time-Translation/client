@@ -30,6 +30,7 @@ export const useCreateMeeting = (props: UseCreateMeetingProps) => {
       setLoading(false);
     });
     return () => {
+      socket.off();
       setLoading(false);
       setMeetingErrorTimeOuted(false);
     };
