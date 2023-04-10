@@ -3,6 +3,7 @@ import { MeetingTranscribedMessage } from '@containers/MeetingP2PContainer/inter
 import { v4 as uuidv4 } from 'uuid';
 
 export const useTranscription = (
+  isActive: boolean,
   onSpeechDetect: () => void,
   onSpeechEnded: () => void,
   isSpeechDetected: boolean,
@@ -22,12 +23,13 @@ export const useTranscription = (
     // speechRecognition.current.lang = 'es-US';
     // speechRecognition.current.maxAlternatives = 1;
 
-    speechRecognition.current.start();
+    if (isActive) {
+      speechRecognition.current.start();
+    }
 
     speechRecognition.current.onresult = (event: any) => {
       let interimTranscript = '';
       let finalTranscript = '';
-      console.log('event');
       for (let i = event.resultIndex; i < event.results.length; i++) {
         // todo удалять ненужные старые результаты
         // console.log(event.resultIndex);

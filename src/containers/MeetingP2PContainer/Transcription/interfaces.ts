@@ -3,4 +3,5 @@ import { MeetingTranscribedMessage } from '@containers/MeetingP2PContainer/inter
 export interface TranscriptionProps {
   onFinalLocalFragment: (fragment: MeetingTranscribedMessage) => void;
   remoteTextFragments: MeetingTranscribedMessage[];
+  isActive: boolean;
 }

@@ -59,6 +59,7 @@ export const MeetingP2PContainer: FC<MeetingP2PContainerProps> = ({
         ref={localVideoElement}
       />
       <Transcription
+        isActive={true}
         onFinalLocalFragment={onFinalLocalFragment}
         remoteTextFragments={remoteTextFragments}
       />

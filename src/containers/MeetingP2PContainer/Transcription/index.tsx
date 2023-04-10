@@ -9,6 +9,7 @@ import { ResultsList } from '@containers/MeetingP2PContainer/Transcription/Resul
 export const Transcription: FC<TranscriptionProps> = ({
   onFinalLocalFragment,
   remoteTextFragments,
+  isActive,
 }) => {
   const classes = useStyles();
   const [isSpeechDetected, setIsSpeechDetected] = useState(false);
@@ -26,6 +27,7 @@ export const Transcription: FC<TranscriptionProps> = ({
   };
 
   useTranscription(
+    isActive,
     onSpeechDetect,
     onSpeechEnded,
     isSpeechDetected,
