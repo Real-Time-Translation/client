@@ -22,6 +22,7 @@ export const Participants = forwardRef(
               ref={localVideoElement}
               autoPlay
               playsInline
+              muted
             >
               <track kind="captions" />
             </video>
