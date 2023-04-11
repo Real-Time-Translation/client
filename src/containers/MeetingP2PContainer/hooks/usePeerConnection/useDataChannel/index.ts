@@ -41,8 +41,6 @@ export const useDataChannel = () => {
     }
   };
 
-  console.log(channelState);
-
   return {
     initDataChannel,
     startListenDataChannel,

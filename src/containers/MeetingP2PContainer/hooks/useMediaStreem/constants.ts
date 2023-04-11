@@ -3,8 +3,5 @@ export const CAPTURE_OPTIONS: MediaStreamConstraints = {
     echoCancellation: true,
     noiseSuppression: true,
   },
-  video: {
-    width: 640,
-    height: 480,
-  },
+  video: true,
 };

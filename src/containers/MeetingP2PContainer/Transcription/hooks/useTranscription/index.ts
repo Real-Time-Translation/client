@@ -47,9 +47,7 @@ export const useTranscription = (
 
     speechRecognition.current.start();
 
-    console.log('start');
     speechRecognition.current.onresult = (event: any) => {
-      console.log('result');
       const interimTranscript = [];
       let finalTranscript = '';
 

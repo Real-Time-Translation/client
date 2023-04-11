@@ -14,7 +14,6 @@ export const Controls: FC<ControlsProps> = ({ localMediaStream }) => {
 
   useEffect(() => {
     if (localMediaStream?.getAudioTracks()[0]) {
-      console.log(localMediaStream.getAudioTracks()[0].enabled);
       setIsAudioMuted(!localMediaStream?.getAudioTracks()[0].enabled);
     }
   }, [localMediaStream]);
