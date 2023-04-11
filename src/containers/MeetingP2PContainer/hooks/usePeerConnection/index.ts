@@ -54,13 +54,15 @@ export const usePeerConnection = (
   };
 
   const handleReceiveIceCandidateFromRemote = (candidate: string) => {
-    peerConnection.current?.addIceCandidate(
-      new RTCIceCandidate({
-        ...JSON.parse(candidate),
-        sdpMid: '0',
-        sdpMLineIndex: 0,
-      }),
-    );
+    if (peerConnection.current?.remoteDescription) {
+      peerConnection.current?.addIceCandidate(
+        new RTCIceCandidate({
+          ...JSON.parse(candidate),
+          sdpMid: '0',
+          sdpMLineIndex: 0,
+        }),
+      );
+    }
   };
   const onRemoteTrack = (e: RTCTrackEvent) => {
     handleReceiveRemoteTrackEvent(e);
