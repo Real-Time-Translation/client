@@ -42,11 +42,7 @@ export const MeetingP2PContainer: FC<MeetingP2PContainerProps> = ({
   useEffect(() => {
     const messageListener = (msg: string) => {
       const textFragment = JSON.parse(msg) as MeetingTranscribedMessage;
-      console.log('fragment:', textFragment);
-      console.log('prev:', remoteTextFragments);
       setRemoteTextFragments((prevState) => {
-        console.log(prevState);
-        console.log(textFragment);
         const chunkToReplaceIdx = prevState.findIndex(
           (chunk) => chunk.key === textFragment.key,
         );
@@ -81,7 +77,7 @@ export const MeetingP2PContainer: FC<MeetingP2PContainerProps> = ({
           remoteTextFragments={remoteTextFragments}
         />
       )}
-      <Controls />
+      <Controls localMediaStream={localMediaStream as MediaStream} />
     </div>
   );
 };
