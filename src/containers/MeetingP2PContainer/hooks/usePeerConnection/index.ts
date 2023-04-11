@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import socket from '@api/socket';
 import { STUN_SERVERS } from './constants';
 import { SDPSetResult } from '@containers/MeetingP2PContainer/hooks/usePeerConnection/interfaces';
@@ -10,6 +10,9 @@ export const usePeerConnection = (
   handleReceiveRemoteTrackEvent: (e: RTCTrackEvent) => void,
 ) => {
   const peerConnection = useRef<RTCPeerConnection>();
+  const [iceCandidatesBuffer, setIceCandidatesBuffer] = useState<
+    RTCIceCandidate[]
+  >([]);
   const {
     initDataChannel,
     startListenDataChannel,
@@ -17,6 +20,7 @@ export const usePeerConnection = (
     sendMessage,
     channelState,
   } = useDataChannel();
+
   useEffect(() => {
     const canConnectionBeEstablished =
       !peerConnection.current && localMediaStream;
@@ -31,6 +35,15 @@ export const usePeerConnection = (
       setupListeners(peerConnection.current);
     }
   }, [localMediaStream]);
+
+  useEffect(() => {
+    // send ices to answerer
+    if (peerConnection.current?.remoteDescription?.type === 'answer') {
+      iceCandidatesBuffer.forEach((iceCandidate) => {
+        socket.emit('iceCandidate', meetingId, JSON.stringify(iceCandidate));
+      });
+    }
+  }, [peerConnection.current?.remoteDescription]);
 
   const initSDPAsOfferer = async () => {
     const sdp = await peerConnection.current?.createOffer();
@@ -50,10 +63,18 @@ export const usePeerConnection = (
   };
 
   const onIceCandidate = (e: RTCPeerConnectionIceEvent) => {
-    socket.emit('iceCandidate', meetingId, JSON.stringify(e.candidate));
+    if (peerConnection.current?.localDescription?.type === 'offer') {
+      setIceCandidatesBuffer((prevState) => [
+        ...prevState,
+        e.candidate as RTCIceCandidate,
+      ]);
+    } else {
+      socket.emit('iceCandidate', meetingId, JSON.stringify(e.candidate));
+    }
   };
 
   const handleReceiveIceCandidateFromRemote = (candidate: string) => {
+    console.log(candidate);
     if (peerConnection.current?.remoteDescription) {
       peerConnection.current?.addIceCandidate(
         new RTCIceCandidate({
