@@ -15,6 +15,7 @@ export const usePeerConnection = (
     startListenDataChannel,
     startListenMessage,
     sendMessage,
+    channelState,
   } = useDataChannel();
   useEffect(() => {
     const canConnectionBeEstablished =
@@ -106,5 +107,6 @@ export const usePeerConnection = (
   return {
     startListenDataChannelMessage: startListenMessage,
     sendDataChannelMessage: sendMessage,
+    channelState,
   };
 };

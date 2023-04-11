@@ -7,9 +7,8 @@ import { TranscriptionProps } from './interfaces';
 import { ResultsList } from '@containers/MeetingP2PContainer/Transcription/ResultsList';
 
 export const Transcription: FC<TranscriptionProps> = ({
-  onFinalLocalFragment,
+  onLocalChunk,
   remoteTextFragments,
-  isActive,
 }) => {
   const classes = useStyles();
   const [isSpeechDetected, setIsSpeechDetected] = useState(false);
@@ -20,18 +19,15 @@ export const Transcription: FC<TranscriptionProps> = ({
     setIsSpeechDetected(false);
   };
 
-  const onFinalTranscriptionFragment = (
-    fragment: MeetingTranscribedMessage,
-  ) => {
-    onFinalLocalFragment(fragment);
+  const onTextChunk = (chunk: MeetingTranscribedMessage) => {
+    onLocalChunk(chunk);
   };
 
   useTranscription(
-    isActive,
     onSpeechDetect,
     onSpeechEnded,
     isSpeechDetected,
-    onFinalTranscriptionFragment,
+    onTextChunk,
   );
 
   return (

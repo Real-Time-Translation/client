@@ -23,12 +23,15 @@ export const MeetingP2PContainer: FC<MeetingP2PContainerProps> = ({
     handleReceiveRemoteTrackEvent,
     remoteRefCb,
   } = useMediaStream();
-  const { startListenDataChannelMessage, sendDataChannelMessage } =
-    usePeerConnection(
-      meetingId,
-      localMediaStream as MediaStream,
-      handleReceiveRemoteTrackEvent,
-    );
+  const {
+    startListenDataChannelMessage,
+    sendDataChannelMessage,
+    channelState,
+  } = usePeerConnection(
+    meetingId,
+    localMediaStream as MediaStream,
+    handleReceiveRemoteTrackEvent,
+  );
 
   /** Бизнесс логика звонка */
 
@@ -39,7 +42,21 @@ export const MeetingP2PContainer: FC<MeetingP2PContainerProps> = ({
   useEffect(() => {
     const messageListener = (msg: string) => {
       const textFragment = JSON.parse(msg) as MeetingTranscribedMessage;
-      setRemoteTextFragments((prevState) => [...prevState, textFragment]);
+      console.log('fragment:', textFragment);
+      console.log('prev:', remoteTextFragments);
+      setRemoteTextFragments((prevState) => {
+        console.log(prevState);
+        console.log(textFragment);
+        const chunkToReplaceIdx = prevState.findIndex(
+          (chunk) => chunk.key === textFragment.key,
+        );
+        if (chunkToReplaceIdx !== -1 || !prevState.length) {
+          return [
+            ...prevState.slice(0, chunkToReplaceIdx),
+            textFragment,
+          ] as MeetingTranscribedMessage[];
+        } else return [...prevState, textFragment];
+      });
       /** Сюда будут приходить фрагменты сообщений */
     };
 
@@ -47,8 +64,8 @@ export const MeetingP2PContainer: FC<MeetingP2PContainerProps> = ({
   }, [startListenDataChannelMessage]);
 
   /** Посылаем фрагмент текста другому пиру */
-  const onFinalLocalFragment = (fragment: MeetingTranscribedMessage) => {
-    sendDataChannelMessage(JSON.stringify(fragment));
+  const onLocalChunk = (chunk: MeetingTranscribedMessage) => {
+    sendDataChannelMessage(JSON.stringify(chunk));
   };
   return (
     <div className={classes.root}>
@@ -58,11 +75,12 @@ export const MeetingP2PContainer: FC<MeetingP2PContainerProps> = ({
         remoteRefCb={remoteRefCb}
         ref={localVideoElement}
       />
-      <Transcription
-        isActive={true}
-        onFinalLocalFragment={onFinalLocalFragment}
-        remoteTextFragments={remoteTextFragments}
-      />
+      {channelState === 'open' && (
+        <Transcription
+          onLocalChunk={onLocalChunk}
+          remoteTextFragments={remoteTextFragments}
+        />
+      )}
       <Controls />
     </div>
   );
