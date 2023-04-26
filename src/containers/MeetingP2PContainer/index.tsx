@@ -9,6 +9,7 @@ import { Controls } from './Controls';
 import { usePeerConnection } from './hooks/usePeerConnection';
 import { Participants } from '@containers/MeetingP2PContainer/Participants';
 import { Transcription } from '@containers/MeetingP2PContainer/Transcription';
+import { useTranslateFinalText } from '@containers/MeetingP2PContainer/hooks/useTranslateFInalText';
 
 export const MeetingP2PContainer: FC<MeetingP2PContainerProps> = ({
   meetingId,
@@ -39,6 +40,8 @@ export const MeetingP2PContainer: FC<MeetingP2PContainerProps> = ({
     MeetingTranscribedMessage[]
   >([]);
 
+  const { translateChunk } = useTranslateFinalText();
+
   useEffect(() => {
     const messageListener = (msg: string) => {
       const textFragment = JSON.parse(msg) as MeetingTranscribedMessage;
@@ -53,7 +56,25 @@ export const MeetingP2PContainer: FC<MeetingP2PContainerProps> = ({
           ] as MeetingTranscribedMessage[];
         } else return [...prevState, textFragment];
       });
-      /** Сюда будут приходить фрагменты сообщений */
+      /** Переводим текст если он финальный */
+      if (textFragment.isFinal) {
+        translateChunk(textFragment.text).then((translated) => {
+          setRemoteTextFragments((prevState) => {
+            const translatedChunk = {
+              text: translated.data ?? '',
+              key: textFragment.key,
+              isFinal: true,
+              id: textFragment.id,
+              translated: true,
+            };
+            const filteredWithoutOldChunk = prevState.filter(
+              (chunkToReplace) => chunkToReplace.key !== translatedChunk.key,
+            );
+            filteredWithoutOldChunk.push(translatedChunk);
+            return filteredWithoutOldChunk;
+          });
+        });
+      }
     };
 
     startListenDataChannelMessage(messageListener);

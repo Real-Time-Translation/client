@@ -18,7 +18,7 @@ export const ResultsList: FC<ResultsListProps> = ({ resultsFragments }) => {
         <>
           <div key={fragment.id} className={classes.item}>
             <Typography width={300}>{fragment.text}</Typography>
-            <LinearProgress style={{ width: 100 }} />
+            {!fragment.translated && <LinearProgress style={{ width: 100 }} />}
           </div>
           <Divider />
         </>

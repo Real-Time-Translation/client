@@ -8,4 +8,5 @@ export interface MeetingTranscribedMessage {
   text: string;
   /** ResultIndex */
   key: number;
+  translated?: boolean;
 }
