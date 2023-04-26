@@ -61,6 +61,8 @@ export const MeetingP2PContainer: FC<MeetingP2PContainerProps> = ({
         translateChunk(textFragment.text).then((translated) => {
           setRemoteTextFragments((prevState) => {
             const translatedChunk = {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
               text: translated.data ?? '',
               key: textFragment.key,
               isFinal: true,
