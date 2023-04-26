@@ -6,7 +6,7 @@ export const useTranslateFinalText = () => {
   const translateChunk = useCallback(async (textChunk: string) => {
     return new Promise((resolve) => {
       axios
-        .post('http://localhost/translate', {
+        .post(`${import.meta.env.VITE_SERVER_HOST}translate`, {
           text: textChunk,
         })
         .then((res) => {
