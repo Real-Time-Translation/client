@@ -28,6 +28,7 @@ export const useDataChannel = () => {
     /** Add more listeners and unsubscribtions */
     if (messageChannel.current) {
       messageChannel.current.onmessage = (e) => {
+        console.log('onmessage:', e.data);
         listener(e.data);
       };
     }
@@ -35,6 +36,7 @@ export const useDataChannel = () => {
 
   const sendMessage = (message: string) => {
     try {
+      console.log('send', message);
       messageChannel.current?.send(message);
     } catch (e) {
       console.log('error, state not open');

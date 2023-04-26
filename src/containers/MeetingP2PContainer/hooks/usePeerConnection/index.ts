@@ -74,7 +74,6 @@ export const usePeerConnection = (
   };
 
   const handleReceiveIceCandidateFromRemote = (candidate: string) => {
-    console.log(candidate);
     if (peerConnection.current?.remoteDescription) {
       peerConnection.current?.addIceCandidate(
         new RTCIceCandidate({
