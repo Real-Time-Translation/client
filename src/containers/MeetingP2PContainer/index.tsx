@@ -46,6 +46,8 @@ export const MeetingP2PContainer: FC<MeetingP2PContainerProps> = ({
   useEffect(() => {
     const messageListener = (msg: string) => {
       const textFragment = JSON.parse(msg) as MeetingTranscribedMessage;
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       if (textFragment.socketId !== socket.id) {
         setRemoteTextFragments((prevState) => {
           const chunkToReplaceIdx = prevState.findIndex(
