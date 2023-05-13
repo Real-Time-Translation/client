@@ -3,5 +3,9 @@ export const STUN_SERVERS = {
     {
       urls: 'stun:stun.l.google.com:19302',
     },
+    {
+      urls: 'stun:relay.backups.cz',
+    },
   ],
+  rtcpMuxPolicy: 'negotiate',
 };
