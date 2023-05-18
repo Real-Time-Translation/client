@@ -25,12 +25,17 @@ export const usePeerConnection = (
     const canConnectionBeEstablished =
       !peerConnection.current && localMediaStream;
     if (canConnectionBeEstablished) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       peerConnection.current = new RTCPeerConnection(STUN_SERVERS);
 
       setupTracks();
 
       peerConnection.current.onicecandidate = onIceCandidate;
       peerConnection.current.ontrack = onRemoteTrack;
+      peerConnection.current.oniceconnectionstatechange = (e) => {
+        console.log('Change state:', e);
+      };
 
       setupListeners(peerConnection.current);
     }
@@ -86,6 +91,7 @@ export const usePeerConnection = (
     }
   };
   const onRemoteTrack = (e: RTCTrackEvent) => {
+    console.log('Remote track: ', e);
     handleReceiveRemoteTrackEvent(e);
   };
 
