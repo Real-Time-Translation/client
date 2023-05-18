@@ -34,7 +34,11 @@ export const usePeerConnection = (
       peerConnection.current.onicecandidate = onIceCandidate;
       peerConnection.current.ontrack = onRemoteTrack;
       peerConnection.current.oniceconnectionstatechange = (e) => {
-        console.log('Change state:', e);
+        console.log(
+          'Change state:',
+          e,
+          peerConnection.current?.iceConnectionState,
+        );
       };
 
       setupListeners(peerConnection.current);
