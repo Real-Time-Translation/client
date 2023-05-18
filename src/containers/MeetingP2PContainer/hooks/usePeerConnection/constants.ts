@@ -1,10 +1,13 @@
 export const STUN_SERVERS = {
   iceServers: [
     {
-      urls: 'stun:stun.l.google.com:19302',
+      url: 'stun:motac85002',
     },
     {
-      urls: 'stun:relay.backups.cz',
+      url: 'stun:stun.l.google.com:19302',
+    },
+    {
+      url: 'stun:relay.backups.cz',
     },
   ],
   rtcpMuxPolicy: 'negotiate',
