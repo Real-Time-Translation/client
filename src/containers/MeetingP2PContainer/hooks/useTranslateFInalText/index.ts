@@ -7,19 +7,12 @@ export const useTranslateFinalText = () => {
   const { currentLanguage } = useContext(LanguageContext);
   const translateChunk = useCallback(
     async (textChunk: string, sourceLanguage: string) => {
-      console.log(
-        textChunk,
-        'sourceLanguage:',
-        sourceLanguage,
-        'target:',
-        currentLanguage,
-      );
       return new Promise((resolve) => {
         axios
           .post(`${import.meta.env.VITE_SERVER_HOST}translate`, {
             text: textChunk,
             sourceLanguage: sourceLanguage ?? 'ERROR',
-            targetLanguage: currentLanguage ?? 'ERROR',
+            currentLanguage: currentLanguage ?? 'ERROR',
           })
           .then((res) => {
             resolve(res);
