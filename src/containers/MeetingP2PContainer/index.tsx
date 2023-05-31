@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import {
   MeetingP2PContainerProps,
   MeetingTranscribedMessage,
@@ -11,6 +11,7 @@ import { Participants } from '@containers/MeetingP2PContainer/Participants';
 import { Transcription } from '@containers/MeetingP2PContainer/Transcription';
 import { useTranslateFinalText } from '@containers/MeetingP2PContainer/hooks/useTranslateFInalText';
 import socket from '@api/socket';
+import { LanguageContext } from '@modules/LanguageProvider/context';
 
 export const MeetingP2PContainer: FC<MeetingP2PContainerProps> = ({
   meetingId,
@@ -62,24 +63,29 @@ export const MeetingP2PContainer: FC<MeetingP2PContainerProps> = ({
         });
         /** Переводим текст если он финальный */
         if (textFragment.isFinal) {
-          translateChunk(textFragment.text).then((translated) => {
-            setRemoteTextFragments((prevState) => {
-              const translatedChunk = {
+          translateChunk(textFragment.text, textFragment.language).then(
+            (translated) => {
+              setRemoteTextFragments((prevState) => {
+                const translatedChunk = {
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore
+                  text: translated.data ?? '',
+                  key: textFragment.key,
+                  isFinal: true,
+                  id: textFragment.id,
+                  translated: true,
+                };
+                const filteredWithoutOldChunk = prevState.filter(
+                  (chunkToReplace) =>
+                    chunkToReplace.key !== translatedChunk.key,
+                );
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
-                text: translated.data ?? '',
-                key: textFragment.key,
-                isFinal: true,
-                id: textFragment.id,
-                translated: true,
-              };
-              const filteredWithoutOldChunk = prevState.filter(
-                (chunkToReplace) => chunkToReplace.key !== translatedChunk.key,
-              );
-              filteredWithoutOldChunk.push(translatedChunk);
-              return filteredWithoutOldChunk;
-            });
-          });
+                filteredWithoutOldChunk.push(translatedChunk);
+                return filteredWithoutOldChunk;
+              });
+            },
+          );
         }
       }
     };
@@ -89,7 +95,12 @@ export const MeetingP2PContainer: FC<MeetingP2PContainerProps> = ({
 
   /** Посылаем фрагмент текста другому пиру */
   const onLocalChunk = (chunk: MeetingTranscribedMessage) => {
-    sendDataChannelMessage(JSON.stringify({ ...chunk, socketId: socket.id }));
+    sendDataChannelMessage(
+      JSON.stringify({
+        ...chunk,
+        socketId: socket.id,
+      }),
+    );
   };
   return (
     <div className={classes.root}>

@@ -8,7 +8,7 @@ import { LanguageContext } from './context';
 import { SESSION_STORAGE_LOCALE_KEY } from './constants';
 
 export const LanguageProvider: FC<LanguageProviderProps> = ({ children }) => {
-  const preferredLanguage = sessionStorage.getItem(
+  const preferredLanguage = localStorage.getItem(
     SESSION_STORAGE_LOCALE_KEY,
   ) as ISOLanguage;
 
@@ -20,7 +20,7 @@ export const LanguageProvider: FC<LanguageProviderProps> = ({ children }) => {
     currentLanguage: language,
     onChangeLanguage: (newLanguage) => {
       setLanguage(newLanguage);
-      sessionStorage.setItem(SESSION_STORAGE_LOCALE_KEY, newLanguage);
+      localStorage.setItem(SESSION_STORAGE_LOCALE_KEY, newLanguage);
     },
   };
 

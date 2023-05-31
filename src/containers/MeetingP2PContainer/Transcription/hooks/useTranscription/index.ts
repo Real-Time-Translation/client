@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { MeetingTranscribedMessage } from '@containers/MeetingP2PContainer/interfaces';
 import { v4 as uuidv4 } from 'uuid';
+import { LanguageContext } from '@modules/LanguageProvider/context';
 
 const TRANSMISSION_SKIP_RATE = 3;
 
@@ -10,6 +11,7 @@ export const useTranscription = (
   isSpeechDetected: boolean,
   onTextChunk: (fragmentText: MeetingTranscribedMessage) => void,
 ) => {
+  const { currentLanguage } = useContext(LanguageContext);
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -29,6 +31,7 @@ export const useTranscription = (
       key: chunkIdx,
       isFinal,
       id: uuidv4(),
+      language: currentLanguage,
     };
   };
 
@@ -43,7 +46,7 @@ export const useTranscription = (
   useEffect(() => {
     /** Возвращает промежуточные результаты */
     speechRecognition.current.interimResults = true;
-    // speechRecognition.current.lang = 'es-US';
+    speechRecognition.current.lang = currentLanguage;
 
     speechRecognition.current.start();
 
